@@ -5,12 +5,38 @@ import { dispose, init } from "klinecharts";
 import { useEffect, useRef, useState } from "react";
 import { generatedDataList } from "~/app/lib/utils";
 import Layout from "../Layout";
-
 const themes = [
   { key: "dark", text: "Dark Mode" },
   { key: "light", text: "Light Mode" },
 ];
 
+const TimestampTag = () => {
+  const [timestamp, setTimestamp] = useState("");
+
+  useEffect(() => {
+    const generateTimestamp = () => {
+      const now = new Date();
+      const randomTimestamp = new Date(
+        now.getTime() - Math.random() * 86400000,
+      );
+      setTimestamp(randomTimestamp.toString());
+    };
+
+    generateTimestamp();
+  }, []);
+
+  return (
+    <a
+      href="https://www.google.com"
+      target="_blank"
+      style={{ textDecoration: "none" }}
+    >
+      <div style={{ color: "red", cursor: "pointer" }}>
+        Random Timestamp: {timestamp}
+      </div>
+    </a>
+  );
+};
 export default function CustomThemeKLineChart() {
   const chart = useRef<Chart | null>();
   const [theme, setTheme] = useState("light");
@@ -54,6 +80,7 @@ export default function CustomThemeKLineChart() {
         <button onClick={updateChart} style={{ marginLeft: 20 }}>
           Update
         </button>
+        <TimestampTag /> {/* Include the TimestampTag component */}
       </div>
     </Layout>
   );
